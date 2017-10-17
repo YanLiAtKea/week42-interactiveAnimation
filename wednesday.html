@@ -6,12 +6,15 @@
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         div.scene {
             width: 600px;
             height: 400px;
             border: 2px solid black;
             position: relative;
+            margin-left: 30px;
         }
         div.hint {
             border: 1px solid red;
@@ -21,7 +24,6 @@
             right: 0;
             top: 0;
         }
-
         div.elevator {
             position: absolute;
             width: 170px;
@@ -37,26 +39,65 @@
         }
         ul.itemsInside {
             position: absolute;
-            top: 70px;
+            bottom: 3px;
             left: 20px;
+        }
+        div.bed {
+            height: 290px;
+            width: 30px;
+            border: 2px solid blue;
+            position: absolute;
+            left: 29px;
+            bottom: 0;
+            transform: rotate(349deg);
+            transition: all 1.7s linear;
+        }
+        div.ask {
+            display: none;
+        }
+        div.ask.show {
+            display: inherit;
+        }
+        div.ask span {
+            margin-left: 10px;
+        }
+        div.blood {
+            width: 170px;
+            height: 20px;
+            border: 1px solid black;
+            position: absolute;
+            bottom: 0;
+            left: 170px;
+            padding: 1%;
+        }
+        div.blood div {
+            width: 100%;
+            height: 100%;
+            background-color: black;
         }
     </style>
     <title>interactive animation</title>
 </head>
 
 <body>
+   <audio></audio>
+   <audio></audio>
+   <div class="humanWrapper"><img class="human"></div>
     <div class="scene">
         <div class="elevator">
             <ul class="itemsInside"></ul>
         </div>
         <ul class="itemsToMove">
-        <li>suitcase 1</li>
-        <li>suitcase 2</li>
-        <li>suitcase 3</li>
-        <li>suitcase 4</li>
-        <li>suitcase 5</li>
-    </ul>
+            <li>suitcase 1</li>
+            <li>suitcase 2</li>
+            <li>suitcase 3</li>
+            <li>suitcase 4</li>
+            <li>suitcase 5</li>
+        </ul>
+        <div class="bed"></div>
+        <div class="ask"><p>I am very heavy, do you really want to move me?</p><span class="yes">yes</span><span class="no">no</span></div>
     <div class="hint"><p></p></div>
+    <div class="blood"><div></div></div>
     </div>
 
 
