@@ -1,24 +1,28 @@
-let itemsToMove = document.querySelectorAll('.itemsToMove li');
+let suitcasesToMove = document.querySelectorAll('.itemsToMove li');
 let ulToMove = document.querySelector('ul.itemsToMove');
 let ulInside = document.querySelector('ul.itemsInside');
 let bed = document.querySelector('.bed');
 let ask = document.querySelector('.ask');
 let hint= document.querySelector('.hint p');
 let blood = document.querySelector('.blood div');
-itemsToMove.forEach(clicked);
-function clicked(li, index){
-    ask.className = "ask"; // clear hint for bed
+
+suitcasesToMove.forEach(suitcaseClicked);
+function suitcaseClicked(li, index){
+    ask.className = "ask"; // remove hint for bed
     li.addEventListener('click', checkIndexAndMove);
     function checkIndexAndMove(){
         if (index != 0){
             hint.textContent = "you can't move me";
             li.style.backgroundColor = "black";
         } else if(index == 0) {
+            let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.clientWidth includes also padding!
+            currentBlood = currentBlood -5;
+            blood.style.width = currentBlood + "px"; // each suitecase costs you 5 strength
             ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase moved is at the bottom in the elevator and the later ones are on top of the previous one
             li.style.backgroundColor ="transparent";
-            let itemsToMove = document.querySelectorAll('.itemsToMove li'); //update index value
-            itemsToMove.forEach(clicked); //repeat the check of order and move top element
-            itemsToMove.forEach(changeToBlank); //remove error hint and color
+            let suitcasesToMove = document.querySelectorAll('.itemsToMove li'); //update index value
+            suitcasesToMove.forEach(suitcaseClicked); //repeat the check of order and move top element
+            suitcasesToMove.forEach(changeToBlank); //remove error hint and color
             function changeToBlank(li){
                 li.style.backgroundColor = "transparent";
             }
@@ -44,11 +48,20 @@ function areYouSure(){
         ask.className = "ask";
         bed.style.transform = "translate(259px, -60px)";
         blood.className = "loseBlood";
+        setTimeout(updateWidth, 2000);
+        function updateWidth(){
+            blood.style.width = "10px";
+        }
     }
     bed.addEventListener('transitionend', tiltBed);
     function tiltBed(){
         bed.removeEventListener('animationend',moveBed);
         bed.style.transition = "all .2s";
         bed.style.transform = "translate(259px, -60px) rotate(7deg)";
+    }
+    let no = document.querySelectorAll('span')[1];
+    no.addEventListener('click', hideAsk);
+    function hideAsk(){
+        ask.className = "ask";
     }
 }
