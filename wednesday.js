@@ -4,6 +4,7 @@ let ulInside = document.querySelector('ul.itemsInside');
 let bed = document.querySelector('.bed');
 let ask = document.querySelector('.ask');
 let hint= document.querySelector('.hint p');
+let blood = document.querySelector('.blood div');
 itemsToMove.forEach(clicked);
 function clicked(li, index){
     ask.className = "ask"; // clear hint for bed
@@ -25,7 +26,16 @@ function clicked(li, index){
         }
     }
 }
-bed.addEventListener('click', areYouSure);
+bed.addEventListener('click', checkIfAlreadyInElevator);
+
+function checkIfAlreadyInElevator(){
+    let bedPosition = bed.style.transform;
+    if (!bedPosition){
+        areYouSure();
+    } else {
+        hint.textContent = "you want to take me out again? I won\'t leave!";
+    }
+}
 function areYouSure(){
     ask.className = "ask show";
     let yes = document.querySelector('span');
@@ -33,6 +43,7 @@ function areYouSure(){
     function moveBed(){
         ask.className = "ask";
         bed.style.transform = "translate(259px, -60px)";
+        blood.className = "loseBlood";
     }
     bed.addEventListener('transitionend', tiltBed);
     function tiltBed(){
