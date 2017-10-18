@@ -2,6 +2,10 @@ let bgMusic = document.querySelector('#bgMusic');
 let chuSound = document.querySelector('#chu');
 let intro = document.querySelector('div.intro');
 let closeIntro = document.querySelector('button.closeIntro');
+///////////  let humanWrapper = "";
+// add links to storyboard and diagram on the page
+// stop music when everything is inside elevator
+// elevator shuts
 let human = document.querySelector('img.h');
 let humanL = document.querySelector('img.hL');
 let humanR = document.querySelector('img.hR');
@@ -11,10 +15,11 @@ let ulInside = document.querySelector('ul.itemsInside');
 let bed = document.querySelector('.bed');
 let ask = document.querySelector('.ask');
 let hint= document.querySelector('.hint p');
-let blood = document.querySelector('.blood div');
+let blood = document.querySelector('.blood div div');
 let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.clientWidth includes also padding!
 closeIntro.addEventListener('click', closeI);
 function closeI(){
+    currentBlood = 170;
     intro.style.display = "none";
     humanL.style.display = "none";
     humanR.style.display = "none";
@@ -27,7 +32,7 @@ function closeI(){
             humanR.style.display = "inherit";
             humanL.style.display = "none";
             if (index != 0){
-                hint.textContent = "you can't move me";
+                hint.textContent = "You need to move the stuff above me first ~";
                 li.style.backgroundColor = "black";
             } else if(index == 0) {
                 if (currentBlood >10) {
@@ -64,13 +69,20 @@ function closeI(){
         let yes = document.querySelector('span');
         yes.addEventListener('click', moveBed);
         function moveBed(){
-            ask.className = "ask";
-            bed.style.transform = "translate(229px, -77px)";
+            ask.className = "ask"; // hide ask div
+            human
+
+
+
+
+
+
+            bed.style.transform = "translate(228px, -77px)";
             bed.addEventListener('transitionend', tiltBed);
             function tiltBed(){
                 bed.removeEventListener('animationend',moveBed);
                 bed.style.transition = "all .2s";
-                bed.style.transform = "translate(229px, -77px) rotate(17deg)";
+                bed.style.transform = "translate(228px, -77px) rotate(17deg)";
             }
             let loseBloodBytime = setInterval(loseSomeBlood, 40);
             let interval = 1;
@@ -83,6 +95,7 @@ function closeI(){
                     }
                 } else {
                     hint.textContent = "Sorry, you worked too hard...";
+//                    humanR.transform = "rotateX(90deg)";
                 }
             }
         }

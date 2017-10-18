@@ -8,18 +8,19 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: sans-serif;
         }
         body {
             position: relative;
         }
-        div.intro {
+        div.intro, div.ask {
             width: 400px;
             height: 300px;
             background: white;
             color: black;
-            z-index: 1;
+            z-index: 3;
             position: absolute;
-            top: 70px;
+            top: 60px;
             left: 130px;
             padding: 25px;
         }
@@ -28,6 +29,8 @@
         }
         button.closeIntro {
             float: right;
+            padding: 11px;
+            font-weight: bold;
         }
         div.scene {
             width: 600px;
@@ -35,14 +38,19 @@
             border: 2px solid black;
             position: relative;
             margin-left: 30px;
+            background-color: beige;
+            overflow: hidden;
         }
         div.hint {
-            border: 1px solid red;
+            background-color: white;
+            border: 2px dotted red;
+            padding: 10px 20px;
             width: 30%;
-            height: 50px;
+            height: auto;
             position: absolute;
             right: 0;
-            top: 0;
+            top: 30px;
+            font-size: 1.1em;
         }
         div.elevator {
             position: absolute;
@@ -59,6 +67,7 @@
             bottom: 20px;
         }
         div.humanWrapper img {
+            z-index: 1;
             position: absolute;
             bottom: 0;
             height: 200px;
@@ -103,20 +112,27 @@
             display: inherit;
         }
         div.ask span {
-            margin-left: 10px;
+            margin-left: 30px;
+            font-size: 3em;
         }
         div.blood {
-            width: 170px;
-            height: 2em;
+            width: 172px;
+            height: 30px;
             position: absolute;
             bottom: 0;
             left: 170px;
         }
         div.blood div {
+            width: 100%;
+            height: 100%;
+            border: 1px solid black;
+            overflow: hidden;
+        }
+        div.blood div div {
             width: 170px;
             height: 30%;
             position: absolute;
-            bottom: 0;
+            bottom: 1px;
             background-color: black;
         }
         div.blood div.loseBlood {
@@ -139,7 +155,6 @@
        <source src="chu-fade-in.mp3" type="audio/mpeg">
    </audio>
    <div class="intro">
-       <p class="date"></p>
        <p>Weronika is moving to her new appartment and you are helping her.</p>
        <p>All these stuff need to be in the elevator, unless you want to use the stairs ;&#41;</p>
        <p>Whenever you move an item, you'll get tired and lose some or a lot of strength, so be careful !!!</p>
@@ -149,6 +164,8 @@
    <div class="humanWrapper"><img class="human"><img src="img/human.png" class="h"><img src="img/human_movefrom_theleft.png" class="hL"><img src="img/human_movefrom_theright.png" class="hR"></div>
     <div class="scene">
         <div class="elevator">
+            <div class="halfDoor"></div>
+            <div class="halfDoor"></div>
             <ul class="itemsInside"></ul>
         </div>
         <ul class="itemsToMove">
@@ -160,7 +177,7 @@
         <div class="bed"><img src = "img/bed.png" alt="bed"></div>
         <div class="ask"><p>I am very heavy and will cost you a lot of strength, do you really want to move me?</p><span class="yes">yes</span><span class="no">no</span></div>
     <div class="hint"><p></p></div>
-    <div class="blood"><p>strength left</p><div></div></div>
+    <div class="blood"><p>strength left</p><div><div></div></div></div>
     </div>
 
 
