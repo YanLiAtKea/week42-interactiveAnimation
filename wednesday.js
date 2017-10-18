@@ -5,6 +5,7 @@ let closeIntro = document.querySelector('button.closeIntro');
 // add links to storyboard and diagram on the page
 // stop music when everything is inside elevator
 // elevator shuts
+// add elevator button
 let halfDoor = document.querySelectorAll('.halfDoor');
 let humanWrapper = document.querySelector('.humanWrapper');
 let human = document.querySelector('img.h');
@@ -55,6 +56,17 @@ function closeI(){
                         li.style.backgroundColor = "transparent";
                     }
                     hint.textContent ="";
+                    let itemsInEle = document.querySelectorAll('.itemsInside li');
+                    if (itemsInEle.length ==4){
+                        checkIfBedIn();
+                        function checkIfBedIn(){
+                            let bedXY = bed.getBoundingClientRect();
+                            if (bedXY.left >100) {
+                                setTimeout(everythingIn, 500);
+                                hint.textContent = "Nice work ! Now you can take the stairs yourself. See you upstairs ~ ;)))";
+                            }
+                        }
+                    }
                 } else {
                     hint.textContent = "You don't have enough strenge to move me now, wait to recover and be patient!";
                 }
@@ -101,7 +113,7 @@ function closeI(){
                     humanR.style.transform ="translate(-400px, 110px) rotateX(87deg)";
                     setTimeout(hintDead, 500);
                     function hintDead(){
-                        hint.textContent = "Sorry, you worked too hard...I told you you need to be careful with the moving..";
+                        hint.textContent = "Sorry, you worked too hard...You should have wait and recover more before you move the bed. I told you you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
                     }
                     blood.style.display = "none";
                     document.addEventListener('click', null); // so that after death no click will trigger anything else,like hint
