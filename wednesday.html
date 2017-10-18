@@ -119,6 +119,7 @@
         ul.itemsToMove img {
             width: 130px;
             float: right;
+            cursor: crosshair;
         }
         ul.itemsInside {
             list-style: none;
@@ -141,6 +142,7 @@
             width: 120px;
             position: absolute;
             bottom: 0;
+            cursor: crosshair;
         }
         div.ask {
             display: none;
@@ -151,6 +153,10 @@
         div.ask span {
             margin-left: 30px;
             font-size: 3em;
+            cursor: crosshair;
+        }
+        div.ask p {
+            line-height: 2em;
         }
         div.blood {
             width: 172px;
@@ -221,14 +227,14 @@
         <div class="ask">
             <p>I am very heavy and will cost you a lot of strength, do you really want to move me?</p>
             <span class="yes">yes</span>
-            <span class="no">no</span>
+            <p>(The no scenario is buggy, so had to remove it.)</p>
         </div>
     <div class="hint"><p></p></div>
     <div class="blood"><p>strength left</p><div><div></div></div></div>
     </div>
     <div class="links">
-        <a>Storyboard</a><br>
-        <a>Sequence Diagram</a>
+        <a href="http://onestepfurther.science/kea/02-animation/interactiveAnimation/storyboard.pdf">Original storyboard</a><br>
+        <a href="http://onestepfurther.science/kea/02-animation/interactiveAnimation/sequence_diagram.pdf">Original sequence diagram</a>
     </div>
 
 </body>

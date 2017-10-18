@@ -79,6 +79,17 @@ function closeI(){
             areYouSure();
             function areYouSure(){
                 ask.className = "ask show";
+                let choices = document.querySelectorAll('span');
+                choices.forEach(yesOrNo);
+                function yesOrNo(chosen){
+                    chosen.addEventListener('click', alert);
+                    function alert(){
+                        alert(chosen.innerHTML);
+                    }
+                }
+
+
+
                 let yes = document.querySelector('span');
                 yes.addEventListener('click', moveBed);
                 function moveBed(){
