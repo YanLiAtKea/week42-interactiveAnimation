@@ -18,17 +18,34 @@ let hint= document.querySelector('.hint p');
 let strengthLevel = document.querySelector('.blood p');
 let blood = document.querySelector('.blood div div');
 let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.clientWidth includes also padding!
+
+// game start
 closeIntro.addEventListener('click', closeI);
 function closeI(){
+    //reset blood
     currentBlood = 170;
-    bgMusic.pause();
+    //lower background volume
+    let lowerVolumeF = setInterval(lowerVolume, 200);
+    let volume = 1;
+    function lowerVolume(){
+        volume *= .91; // use * for gradual change without sudden stop of music
+        bgMusic.volume = volume;
+        if (volume <.05 ){
+            bgMusic.pause();
+            clearInterval(lowerVolumeF);
+        }
+    };
+    // show hint before anything is clicked
     hint.textContent = "click on any stuff to move it";
+    // remove intro div
     intro.style.display = "none";
+    // show only the human img facing front
     humanL.style.display = "none";
     humanR.style.display = "none";
+    // click on suitcases
     suitcasesToMove.forEach(suitcaseClicked);
     function suitcaseClicked(li, index){
-        ask.className = "ask"; // remove hint for bed
+        ask.className = "ask"; // remove hint for bed in the case that user click suitcase after bed is already moved and the ask div is shown at the moment
         li.addEventListener('click', checkIndexStrengthAndMove);
         let suitcase = li.childNodes;
         function checkIndexStrengthAndMove(){
@@ -42,27 +59,39 @@ function closeI(){
                 hint.textContent = "You need to move the stuff above me first ~";
             } else if(index == 0) {
                 if (currentBlood >10) {
-                    chuSound.play();
-                    currentBlood = currentBlood - 10;
-                    blood.style.width = currentBlood + "px";
-                    humanL.style.display = "inherit";
-                    humanR.style.display = "none";
-                    ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase moved is at the bottom in the elevator and the later ones are on top of the previous one
-                    li.style.backgroundColor ="transparent";
-                    let suitcasesToMove = document.querySelectorAll('.itemsToMove li'); //update index value
-                    suitcasesToMove.forEach(suitcaseClicked); //repeat the check of order and move top element
-                    suitcasesToMove.forEach(changeToBlank); //remove error hint and color
-                    function changeToBlank(li){
-                        li.style.backgroundColor = "transparent";
-                    }
-                    hint.textContent ="Nice work~";
-                    let itemsInEle = document.querySelectorAll('.itemsInside li');
-                    if (itemsInEle.length ==4){
-                        checkIfBedIn();
-                        function checkIfBedIn(){
-                            let bedXY = bed.getBoundingClientRect();
-                            if (bedXY.left >100) {
-                                setTimeout(everythingIn, 500);
+                    humanL.style.display = "none";
+                    humanR.style.display = "inherit";
+                    hint.textContent = "";
+                    setTimeout(throwSuitcase, 300);
+                    function throwSuitcase(){
+                        chuSound.play();
+                        currentBlood = currentBlood - 10;
+                        blood.style.width = currentBlood + "px";
+                        humanL.style.display = "inherit";
+                        humanR.style.display = "none";
+                        hint.textContent ="Nice work~";
+                        ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase is at the bottom in the elevator and the later ones are on top of the previous one
+                        let suitcasesToMove = document.querySelectorAll('.itemsToMove li'); //update suitcasesToMove value in the toMove array, especially index value
+                        let itemsInEle = document.querySelectorAll('.itemsInside li');
+                        itemsInEle.forEach(doNotClickAgain); // get array of items inside elevator
+                        function doNotClickAgain(suitcaseInside){
+                            suitcaseInside.addEventListener('mouseover', hideCursor);
+                            function hideCursor(){
+                                suitcaseInside.style.cursor = "none";
+                            }
+//                            suitcaseInside.addEventListener('click', noLeave);
+//                            function noLeave(){
+//                                hint.textContent = "Let me stay in the elevator, just keep working";
+//                            }
+                        }
+                        suitcasesToMove.forEach(suitcaseClicked); //repeat the check of order and move top element
+                        if (itemsInEle.length ==4){
+                            checkIfBedIn();
+                            function checkIfBedIn(){
+                                let bedXY = bed.getBoundingClientRect();
+                                if (bedXY.left >100) {
+                                    setTimeout(everythingIn, 500);
+                                }
                             }
                         }
                     }
@@ -79,14 +108,6 @@ function closeI(){
             areYouSure();
             function areYouSure(){
                 ask.className = "ask show";
-                let choices = document.querySelectorAll('span');
-                choices.forEach(yesOrNo);
-                function yesOrNo(chosen){
-                    chosen.addEventListener('click', alert);
-                    function alert(){
-                        alert(chosen.innerHTML);
-                    }
-                }
                 let yes = document.querySelector('span');
                 yes.addEventListener('click', moveBed);
                 function moveBed(){
@@ -116,9 +137,9 @@ function closeI(){
                                 function checkIfSuitcasesIn(){
                                     let itemsInEle = document.querySelectorAll('.itemsInside li');
                                     if (itemsInEle.length ==4){
-                                        setTimeout(everythingIn2, 500);
+                                        hint.textContent = "Thank you ! It's the right order to move the stuff, so you get to take the elevator as well~";
+                                        setTimeout(everythingIn2, 2000);
                                         function everythingIn2(){
-                                            hint.textContent = "Thank you ! It's the right order to move the stuff, so you get to take the elevator as well~";
                                             halfDoor.forEach(shut);
                                             function shut(hD){
                                                 hD.style.transform = "rotateY(180deg)";
@@ -133,7 +154,7 @@ function closeI(){
                             humanR.style.transform ="translate(-400px, 110px) rotateX(87deg)";
                             setTimeout(hintDead, 500);
                             function hintDead(){
-                                hint.textContent = "Sorry, you worked too hard...You should have wait and recover more before you move the bed. I told you you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
+                                hint.textContent = "Sorry, you worked too hard...You should have wait and recovered more before you decides to move the bed. I told you you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
                             }
                             blood.style.display = "none";
                             document.addEventListener('click', null); // so that after death no click will trigger anything else,like hint
@@ -178,7 +199,7 @@ function closeI(){
             blood.style.backgroundColor = "red";
             human.style.transform = "scale(2)";
             human.style.transition = "all 3s ease-in";
-            currentBlood += 30;
+            currentBlood += 10;
             blood.style.transform = "scale(2)";
             hint.style.transform = "scale(.5)";
             hint.style.transition = "all 3s ease-in";

@@ -22,14 +22,14 @@
         }
         div.intro, div.ask {
             width: 400px;
-            height: 300px;
+            height: auto;
             background: white;
             color: black;
             z-index: 3;
             position: absolute;
-            top: 60px;
+            top: 30px;
             left: 130px;
-            padding: 25px;
+            padding: 15px 25px;
         }
         div.intro p {
             margin: 1em;
@@ -51,9 +51,11 @@
         div.hint {
             background-color: white;
             border: 2px dotted red;
+            border-radius: 5px;
             padding: 10px 20px;
             width: 30%;
             height: auto;
+            min-height: 42px;
             position: absolute;
             right: 0;
             top: 30px;
@@ -195,12 +197,13 @@
        <source src="bgsound.mp3" type="audio/mpeg">
    </audio>
    <audio id="chu">
-       <source src="chu-fade-in.mp3" type="audio/mpeg">
+       <source src="chu.mp3" type="audio/mpeg">
    </audio>
    <div class="intro">
        <p>Weronika is moving to her new appartment and you are helping her.</p>
        <p>All these stuff need to be in the elevator, unless you want to use the stairs?? ;&#41;</p>
        <p>Whenever you move an item, you'll get tired and lose some or a lot of strength, so be careful !!!</p>
+       <p>There are 3 possible endings to the story, depending on how you move the stuff. See if you can experience them all.</p>
        <p>There will be hint along the way.</p>
        <button class="closeIntro">OK, I GOT IT.</button>
    </div>
@@ -227,7 +230,7 @@
         <div class="ask">
             <p>I am very heavy and will cost you a lot of strength, do you really want to move me?</p>
             <span class="yes">yes</span>
-            <p>(The no scenario is buggy, so had to remove it.)</p>
+            <p>(The no scenario is buggy, still working on it)</p>
         </div>
     <div class="hint"><p></p></div>
     <div class="blood"><p>strength left</p><div><div></div></div></div>
