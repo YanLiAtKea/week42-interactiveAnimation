@@ -87,9 +87,6 @@ function closeI(){
                         alert(chosen.innerHTML);
                     }
                 }
-
-
-
                 let yes = document.querySelector('span');
                 yes.addEventListener('click', moveBed);
                 function moveBed(){
@@ -126,6 +123,8 @@ function closeI(){
                                             function shut(hD){
                                                 hD.style.transform = "rotateY(180deg)";
                                             }
+                                            ulInside.style.transform = "translateY(-400px)";
+                                            ulInside.style.transition = "all .5s ease-in";
                                         }
                                     }
                                 }
