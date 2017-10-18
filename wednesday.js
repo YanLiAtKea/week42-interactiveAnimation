@@ -17,6 +17,7 @@ let ulInside = document.querySelector('ul.itemsInside');
 let bed = document.querySelector('.bed');
 let ask = document.querySelector('.ask');
 let hint= document.querySelector('.hint p');
+let strengthLevel = document.querySelector('.blood p');
 let blood = document.querySelector('.blood div div');
 let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.clientWidth includes also padding!
 closeIntro.addEventListener('click', closeI);
@@ -63,7 +64,6 @@ function closeI(){
                             let bedXY = bed.getBoundingClientRect();
                             if (bedXY.left >100) {
                                 setTimeout(everythingIn, 500);
-                                hint.textContent = "Nice work ! Now you can take the stairs yourself. See you upstairs ~ ;)))";
                             }
                         }
                     }
@@ -129,7 +129,7 @@ function closeI(){
     setInterval(recover, 100);
     function recover(){
         if (currentBlood < 170){
-            currentBlood += 0.1;
+            currentBlood += 0.2;
         } else {
             currentBlood = 170;
         }
@@ -139,6 +139,21 @@ function closeI(){
         halfDoor.forEach(shut);
         function shut(hD){
             hD.style.transform = "rotateY(180deg)";
+        }
+        hint.textContent = "Nice work ! Now you can take the stairs yourself. See you on the 7th floor~ 7th! ;)))";
+        strengthLevel.textContent = "angry level";
+        blood.style.backgroundColor = "red";
+        human.style.display = "inherit";
+        humanL.style.display = "none";
+        humanR.style.display = "none";
+        setTimeout(enlarge, 1500);
+        function enlarge(){
+            human.style.transform = "scale(2)";
+            human.style.transition = "all 3s ease-in";
+            currentBlood += 30;
+            blood.style.transform = "scale(2)";
+            hint.style.transform = "scale(.5)";
+            hint.style.transition = "all 3s ease-in";
         }
     }
 }
