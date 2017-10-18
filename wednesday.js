@@ -37,7 +37,7 @@ function closeI(){
         }
     };
     // show hint before anything is clicked
-    hint.textContent = "click on any stuff to move it";
+    hint.textContent = "click on any stuff to move it into the elevator";
     // remove intro div
     intro.style.display = "none";
     // show only the human img facing front
@@ -159,7 +159,7 @@ function closeI(){
                             gameOverSound.play();
                             setTimeout(hintDead, 500);
                             function hintDead(){
-                                hint.textContent = "Sorry, you worked too hard...You should have waited in order to recover more before you decided to move the bed. I told you you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
+                                hint.textContent = "Sorry, you worked too hard...You should have waited in order to recover more before you decided to move the bed. I told you that you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
                             }
                             blood.style.display = "none"; // cuz dead
                             scene.style.pointerEvents = "none"; // so that after death no click will trigger anything
@@ -175,7 +175,7 @@ function closeI(){
 //                }
             }
         } else {
-            hint.textContent = "you want to take me out again? I won't leave!";
+            hint.textContent = "you want to take me out again? I won't leave! Just keep moving..";
         }
     }
     setInterval(recover, 100);
