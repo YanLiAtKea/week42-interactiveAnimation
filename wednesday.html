@@ -53,12 +53,18 @@
             border: 2px dotted red;
             border-radius: 5px;
             padding: 10px 20px;
-            width: 30%;
+            width: 37%;
             height: auto;
             min-height: 42px;
             position: absolute;
             right: 0;
             top: 30px;
+        }
+        img.elevatorButton {
+            height: 30px;
+            position: absolute;
+            left: 150px;
+            top: 190px;
         }
         div.elevator {
             position: absolute;
@@ -199,6 +205,9 @@
    <audio id="chu">
        <source src="chu.mp3" type="audio/mpeg">
    </audio>
+   <audio id="gameOver">
+       <source src="gameover.mp3" type="audio/mpeg">
+   </audio>
    <div class="intro">
        <p>Weronika is moving to her new appartment and you are helping her.</p>
        <p>All these stuff need to be in the elevator, unless you want to use the stairs?? ;&#41;</p>
@@ -208,21 +217,22 @@
        <button class="closeIntro">OK, I GOT IT.</button>
    </div>
     <div class="scene">
-       <div class="humanWrapper">
+        <div class="humanWrapper">
            <img src="img/human.png" class="h">
            <img src="img/human_movefrom_theleft.png" class="hL">
            <img src="img/human_movefrom_theright.png" class="hR">
-       </div>
+        </div>
+        <img class="elevatorButton" src="img/elevatorButton.png">
         <div class="elevator">
             <div class="halfDoor lDoor"></div>
             <div class="halfDoor rDoor"></div>
             <ul class="itemsInside"></ul>
         </div>
         <ul class="itemsToMove">
-            <li><img src= "img/suitcase4.png"></li>
-            <li><img src= "img/suitcase2.png"></li>
-            <li><img src= "img/suitcase3.png"></li>
-            <li><img src= "img/suitcase1.png"></li>
+            <li><img src="img/suitcase4.png"></li>
+            <li><img src="img/suitcase2.png"></li>
+            <li><img src="img/suitcase3.png"></li>
+            <li><img src="img/suitcase1.png"></li>
         </ul>
         <div class="bed">
             <img src = "img/bed.png" alt="bed">

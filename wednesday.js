@@ -1,9 +1,8 @@
 let bgMusic = document.querySelector('#bgMusic');
 let chuSound = document.querySelector('#chu');
+let gameOverSound = document.querySelector('#gameOver');
 let intro = document.querySelector('div.intro');
 let closeIntro = document.querySelector('button.closeIntro');
-// add links to storyboard and diagram on the page
-// add elevator button
 let halfDoor = document.querySelectorAll('.halfDoor');
 let humanWrapper = document.querySelector('.humanWrapper');
 let human = document.querySelector('img.h');
@@ -13,6 +12,7 @@ let suitcasesToMove = document.querySelectorAll('.itemsToMove li');
 let ulToMove = document.querySelector('ul.itemsToMove');
 let ulInside = document.querySelector('ul.itemsInside');
 let bed = document.querySelector('.bed');
+let bedImg = document.querySelector('.bed img');
 let ask = document.querySelector('.ask');
 let hint= document.querySelector('.hint p');
 let strengthLevel = document.querySelector('.blood p');
@@ -62,7 +62,7 @@ function closeI(){
                     humanL.style.display = "none";
                     humanR.style.display = "inherit";
                     hint.textContent = "";
-                    setTimeout(throwSuitcase, 300);
+                    setTimeout(throwSuitcase, 30);
                     function throwSuitcase(){
                         chuSound.play();
                         currentBlood = currentBlood - 10;
@@ -96,12 +96,12 @@ function closeI(){
                         }
                     }
                 } else {
-                    hint.textContent = "You don't have enough strenge to move me now, wait to recover and be patient!";
+                    hint.textContent = "You don't have enough strenge to move me now. Please wait and recover. Be Patient!";
                 }
             }
         }
     }
-    bed.addEventListener('click', checkIfAlreadyInElevator);
+    bedImg.addEventListener('click', checkIfAlreadyInElevator);
     function checkIfAlreadyInElevator(){
         let bedPosition = bed.style.transform;
         if (!bedPosition){
@@ -124,7 +124,7 @@ function closeI(){
                         bed.removeEventListener('animationend',moveBed);
                         bed.style.transition = "all .2s";
                         bed.style.transform = "translate(228px, -77px) rotate(17deg)";
-                    }
+                    };
                     let loseBloodBytime = setInterval(loseSomeBlood, 40);
                     let interval = 1;
                     function loseSomeBlood(){
@@ -137,7 +137,7 @@ function closeI(){
                                 function checkIfSuitcasesIn(){
                                     let itemsInEle = document.querySelectorAll('.itemsInside li');
                                     if (itemsInEle.length ==4){
-                                        hint.textContent = "Thank you ! It's the right order to move the stuff, so you get to take the elevator as well~";
+                                        hint.textContent = "Thank you! It's the right order to move the stuff and you didn't push yourself too hard. Congras and you get to take the elevator as well~";
                                         setTimeout(everythingIn2, 2000);
                                         function everythingIn2(){
                                             halfDoor.forEach(shut);
@@ -151,10 +151,12 @@ function closeI(){
                                 }
                             }
                         } else {
-                            humanR.style.transform ="translate(-400px, 110px) rotateX(87deg)";
+                            clearInterval(loseBloodBytime);
+                            humanR.style.transform ="translate(-400px, 117px) rotateX(87deg)";
+                            gameOverSound.play();
                             setTimeout(hintDead, 500);
                             function hintDead(){
-                                hint.textContent = "Sorry, you worked too hard...You should have wait and recovered more before you decides to move the bed. I told you you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
+                                hint.textContent = "Sorry, you worked too hard...You should have waited in order to recover more before you decided to move the bed. I told you you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
                             }
                             blood.style.display = "none";
                             document.addEventListener('click', null); // so that after death no click will trigger anything else,like hint
@@ -187,13 +189,13 @@ function closeI(){
         function shut(hD){
             hD.style.transform = "rotateY(180deg)";
         }
-        hint.textContent = "Thank you ! But it's not smart to throw the suitcases. Now you can take the stairs yourself. See you on the 7th floor~ 7th! ;)))";
+        hint.textContent = "I've got what I need and I can't wait for you to get in. It's not smart to just throw the suitcases in. Now you can take the stairs yourself. See you on the 117th floor ~ ;)))";
         ulInside.style.transform = "translateY(-400px)";
         ulInside.style.transition = "all .5s ease-in";
         human.style.display = "inherit";
         humanL.style.display = "none";
         humanR.style.display = "none";
-        setTimeout(enlarge, 2500);
+        setTimeout(enlarge, 4000);
         function enlarge(){
             strengthLevel.textContent = "angry level";
             blood.style.backgroundColor = "red";
@@ -201,7 +203,7 @@ function closeI(){
             human.style.transition = "all 3s ease-in";
             currentBlood += 10;
             blood.style.transform = "scale(2)";
-            hint.style.transform = "scale(.5)";
+            hint.style.transform = "scale(.7)";
             hint.style.transition = "all 3s ease-in";
         }
     }
