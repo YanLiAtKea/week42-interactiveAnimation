@@ -103,7 +103,7 @@ function closeI(){
                     function hintDead(){
                         hint.textContent = "Sorry, you worked too hard...I told you you need to be careful with the moving..";
                     }
-
+                    blood.style.display = "none";
                 }
             }
         }
