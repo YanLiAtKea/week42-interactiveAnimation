@@ -5,6 +5,7 @@ let bed = document.querySelector('.bed');
 let ask = document.querySelector('.ask');
 let hint= document.querySelector('.hint p');
 let blood = document.querySelector('.blood div');
+let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.clientWidth includes also padding!
 
 suitcasesToMove.forEach(suitcaseClicked);
 function suitcaseClicked(li, index){
@@ -15,7 +16,6 @@ function suitcaseClicked(li, index){
             hint.textContent = "you can't move me";
             li.style.backgroundColor = "black";
         } else if(index == 0) {
-            let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.clientWidth includes also padding!
             currentBlood = currentBlood -5;
             blood.style.width = currentBlood + "px"; // each suitecase costs you 5 strength
             ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase moved is at the bottom in the elevator and the later ones are on top of the previous one
@@ -31,7 +31,6 @@ function suitcaseClicked(li, index){
     }
 }
 bed.addEventListener('click', checkIfAlreadyInElevator);
-
 function checkIfAlreadyInElevator(){
     let bedPosition = bed.style.transform;
     if (!bedPosition){
@@ -47,17 +46,27 @@ function areYouSure(){
     function moveBed(){
         ask.className = "ask";
         bed.style.transform = "translate(259px, -60px)";
-        blood.className = "loseBlood";
-        setTimeout(updateWidth, 2000);
-        function updateWidth(){
-            blood.style.width = "10px";
+        bed.addEventListener('transitionend', tiltBed);
+        function tiltBed(){
+            bed.removeEventListener('animationend',moveBed);
+            bed.style.transition = "all .2s";
+            bed.style.transform = "translate(259px, -60px) rotate(7deg)";
         }
-    }
-    bed.addEventListener('transitionend', tiltBed);
-    function tiltBed(){
-        bed.removeEventListener('animationend',moveBed);
-        bed.style.transition = "all .2s";
-        bed.style.transform = "translate(259px, -60px) rotate(7deg)";
+        let loseBloodBytime = setInterval(loseSomeBlood, 40);
+        let interval = 1;
+        function loseSomeBlood(){
+            if (currentBlood >3){
+                currentBlood -=3;
+                blood.style.width = currentBlood + "px";
+                interval ++;
+                if (interval == 50){
+                    clearInterval(loseBloodBytime);
+                }
+            } else {
+                hint.textContent = "Sorry, you worked too hard...";
+
+            }
+        }
     }
     let no = document.querySelectorAll('span')[1];
     no.addEventListener('click', hideAsk);
