@@ -1,6 +1,7 @@
 let bgMusic = document.querySelector('#bgMusic');
 let chuSound = document.querySelector('#chu');
 let gameOverSound = document.querySelector('#gameOver');
+let scene = document.querySelector('.scene');
 let intro = document.querySelector('div.intro');
 let closeIntro = document.querySelector('button.closeIntro');
 let halfDoor = document.querySelectorAll('.halfDoor');
@@ -42,7 +43,7 @@ function closeI(){
     // show only the human img facing front
     humanL.style.display = "none";
     humanR.style.display = "none";
-    // click on suitcases
+    // click on each suitcase
     suitcasesToMove.forEach(suitcaseClicked);
     function suitcaseClicked(li, index){
         ask.className = "ask"; // remove hint for bed in the case that user click suitcase after bed is already moved and the ask div is shown at the moment
@@ -55,14 +56,14 @@ function closeI(){
             humanR.style.display = "inherit";
             humanR.style.transform = "translate(0px, 0px)";
             humanL.style.transform = "translate(0px, 0px)";
-            if (index != 0){
+            if (index != 0){ // if suitcase is not on top
                 hint.textContent = "You need to move the stuff above me first ~";
-            } else if(index == 0) {
-                if (currentBlood >10) {
+            } else if(index == 0) { // if suitcase is on top
+                if (currentBlood >10) { //check if have enough blood left for the task // help the user to finish the game
                     humanL.style.display = "none";
-                    humanR.style.display = "inherit";
+                    humanR.style.display = "inherit"; // turn to right, pick up the suitcase
                     hint.textContent = "";
-                    setTimeout(throwSuitcase, 30);
+                    setTimeout(throwSuitcase, 30); // human turns and suitcase moves
                     function throwSuitcase(){
                         chuSound.play();
                         currentBlood = currentBlood - 10;
@@ -70,8 +71,7 @@ function closeI(){
                         humanL.style.display = "inherit";
                         humanR.style.display = "none";
                         hint.textContent ="Nice work~";
-                        ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase is at the bottom in the elevator and the later ones are on top of the previous one
-                        let suitcasesToMove = document.querySelectorAll('.itemsToMove li'); //update suitcasesToMove value in the toMove array, especially index value
+                        ulInside.insertBefore(li, ulInside.firstChild); // move this item from the original list of toMove to the new list of insideElevator. Don't use appendChild, use insertBefore, so the first suitecase is at the bottom in the elevator and the later ones are on top of the previous one
                         let itemsInEle = document.querySelectorAll('.itemsInside li');
                         itemsInEle.forEach(doNotClickAgain); // get array of items inside elevator
                         function doNotClickAgain(suitcaseInside){
@@ -84,7 +84,8 @@ function closeI(){
 //                                hint.textContent = "Let me stay in the elevator, just keep working";
 //                            }
                         }
-                        suitcasesToMove.forEach(suitcaseClicked); //repeat the check of order and move top element
+                        let suitcasesToMove1 = document.querySelectorAll('.itemsToMove li'); //update suitcasesToMove value in the toMove array, especially index value
+                        suitcasesToMove1.forEach(suitcaseClicked); //repeat the check of order and move top element
                         if (itemsInEle.length ==4){
                             checkIfBedIn();
                             function checkIfBedIn(){
@@ -101,10 +102,11 @@ function closeI(){
             }
         }
     }
+    // move the bed
     bedImg.addEventListener('click', checkIfAlreadyInElevator);
     function checkIfAlreadyInElevator(){
         let bedPosition = bed.style.transform;
-        if (!bedPosition){
+        if (!bedPosition){ // only after the bed is moved, will it have a transform attribute, so ! is for the case that user hasn't touch the bed yet // another way to check bed's position see line 91
             areYouSure();
             function areYouSure(){
                 ask.className = "ask show";
@@ -125,13 +127,14 @@ function closeI(){
                         bed.style.transition = "all .2s";
                         bed.style.transform = "translate(228px, -77px) rotate(17deg)";
                     };
+                    // lose blood while moving bed
                     let loseBloodBytime = setInterval(loseSomeBlood, 40);
                     let interval = 1;
                     function loseSomeBlood(){
                         if (currentBlood >3){
                             currentBlood -=3;
                             interval ++;
-                            if (interval == 50){
+                            if (interval == 50){ // bed move for 2s, so display blood lost also in 2s, 40*50=2000ms
                                 clearInterval(loseBloodBytime);
                                 checkIfSuitcasesIn();
                                 function checkIfSuitcasesIn(){
@@ -144,35 +147,35 @@ function closeI(){
                                             function shut(hD){
                                                 hD.style.transform = "rotateY(180deg)";
                                             }
-                                            ulInside.style.transform = "translateY(-400px)";
-                                            ulInside.style.transition = "all .5s ease-in";
+                                            ulInside.style.transform = "translateY(-400px)"; // stuff in the elevator rises
+                                            ulInside.style.transition = "all 1s ease-in";
                                         }
                                     }
                                 }
                             }
-                        } else {
+                        } else { // not enough blood for moving the bed
                             clearInterval(loseBloodBytime);
-                            humanR.style.transform ="translate(-400px, 117px) rotateX(87deg)";
+                            humanR.style.transform ="translate(-400px, 117px) rotateX(87deg)"; // human down
                             gameOverSound.play();
                             setTimeout(hintDead, 500);
                             function hintDead(){
                                 hint.textContent = "Sorry, you worked too hard...You should have waited in order to recover more before you decided to move the bed. I told you you need to be careful with the moving...  Refresh page to start over~ Be patient this time and see what happens~";
                             }
-                            blood.style.display = "none";
-                            document.addEventListener('click', null); // so that after death no click will trigger anything else,like hint
+                            blood.style.display = "none"; // cuz dead
+                            scene.style.pointerEvents = "none"; // so that after death no click will trigger anything
                             interval = 51; // so that the success alternative doesn't show up
                         }
                     }
                 }
-                let no = document.querySelectorAll('span')[1];
-                no.addEventListener('click', hideAsk);
-                function hideAsk(){
-                    ask.className = "ask";
-                    hint.textContent = "fine, choose another stuff then"
-                }
+//                let no = document.querySelectorAll('span')[1];
+//                no.addEventListener('click', hideAsk);
+//                function hideAsk(){
+//                    ask.className = "ask";
+//                    hint.textContent = "fine, choose another stuff then"
+//                }
             }
         } else {
-            hint.textContent = "you want to take me out again? I won\'t leave!";
+            hint.textContent = "you want to take me out again? I won't leave!";
         }
     }
     setInterval(recover, 100);
@@ -189,9 +192,9 @@ function closeI(){
         function shut(hD){
             hD.style.transform = "rotateY(180deg)";
         }
-        hint.textContent = "I've got what I need and I can't wait for you to get in. It's not smart to just throw the suitcases in. Now you can take the stairs yourself. See you on the 117th floor ~ ;)))";
+        hint.textContent = "I've got what I need and I can't wait for you to get in the elevator. It's not smart to just throw the suitcases in. Now you can take the stairs yourself. See you on the 117th floor ~ ;)))";
         ulInside.style.transform = "translateY(-400px)";
-        ulInside.style.transition = "all .5s ease-in";
+        ulInside.style.transition = "all 1s ease-in";
         human.style.display = "inherit";
         humanL.style.display = "none";
         humanR.style.display = "none";
