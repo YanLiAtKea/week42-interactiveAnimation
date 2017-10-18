@@ -98,12 +98,13 @@ function closeI(){
                         clearInterval(loseBloodBytime);
                     }
                 } else {
-                    humanR.style.transform ="translate(-400px, 107px) rotateX(87deg)";
+                    humanR.style.transform ="translate(-400px, 110px) rotateX(87deg)";
                     setTimeout(hintDead, 500);
                     function hintDead(){
                         hint.textContent = "Sorry, you worked too hard...I told you you need to be careful with the moving..";
                     }
                     blood.style.display = "none";
+                    document.addEventListener('click', null); // so that after death no click will trigger anything else,like hint
                 }
             }
         }
