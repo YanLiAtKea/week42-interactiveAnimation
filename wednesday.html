@@ -9,6 +9,26 @@
             margin: 0;
             padding: 0;
         }
+        body {
+            position: relative;
+        }
+        div.intro {
+            width: 400px;
+            height: 300px;
+            background: white;
+            color: black;
+            z-index: 1;
+            position: absolute;
+            top: 70px;
+            left: 130px;
+            padding: 25px;
+        }
+        div.intro p {
+            margin: 1em;
+        }
+        button.closeIntro {
+            float: right;
+        }
         div.scene {
             width: 600px;
             height: 400px;
@@ -32,25 +52,49 @@
             top: 40px;
             border: 5px solid black;
         }
+        div.humanWrapper {
+            width: 130px;
+            position: absolute;
+            left: 410px;
+            bottom: 20px;
+        }
+        div.humanWrapper img {
+            position: absolute;
+            bottom: 0;
+            height: 200px;
+        }
         ul.itemsToMove {
             position: absolute;
             bottom: 0;
             right: 0;
+            width: 200px;
+            list-style: none;
+        }
+        ul.itemsToMove img {
+            width: 130px;
+            float: right;
         }
         ul.itemsInside {
+            list-style: none;
             position: absolute;
             bottom: 3px;
-            left: 20px;
+            left: 0;
+        }
+        ul.itemsInside img {
+            width: 90px;
         }
         div.bed {
             height: 290px;
             width: 30px;
-            border: 2px solid blue;
             position: absolute;
-            left: 29px;
             bottom: 0;
-            transform: rotate(349deg);
+            transform: rotate(0);
             transition: all 1.8s linear;
+        }
+        div.bed img {
+            width: 120px;
+            position: absolute;
+            bottom: 0;
         }
         div.ask {
             display: none;
@@ -88,22 +132,32 @@
 </head>
 
 <body>
-   <audio></audio>
-   <audio></audio>
-   <div class="intro"></div>
-   <div class="humanWrapper"><img class="human"></div>
+   <audio id="bgMusic" autoplay loop>
+       <source src="bgsound.mp3" type="audio/mpeg">
+   </audio>
+   <audio id="chu">
+       <source src="chu-fade-in.mp3" type="audio/mpeg">
+   </audio>
+   <div class="intro">
+       <p class="date"></p>
+       <p>Weronika is moving to her new appartment and you are helping her.</p>
+       <p>All these stuff need to be in the elevator, unless you want to use the stairs ;&#41;</p>
+       <p>Whenever you move an item, you'll get tired and lose some or a lot of strength, so be careful !!!</p>
+       <p>There will be hint along the way.</p>
+       <button class="closeIntro">OK, I GOT IT.</button>
+   </div>
+   <div class="humanWrapper"><img class="human"><img src="img/human.png" class="h"><img src="img/human_movefrom_theleft.png" class="hL"><img src="img/human_movefrom_theright.png" class="hR"></div>
     <div class="scene">
         <div class="elevator">
             <ul class="itemsInside"></ul>
         </div>
         <ul class="itemsToMove">
-            <li>suitcase 1</li>
-            <li>suitcase 2</li>
-            <li>suitcase 3</li>
-            <li>suitcase 4</li>
-            <li>suitcase 5</li>
+            <li><img src= "img/suitcase4.png"></li>
+            <li><img src= "img/suitcase2.png"></li>
+            <li><img src= "img/suitcase3.png"></li>
+            <li><img src= "img/suitcase1.png"></li>
         </ul>
-        <div class="bed"></div>
+        <div class="bed"><img src = "img/bed.png" alt="bed"></div>
         <div class="ask"><p>I am very heavy and will cost you a lot of strength, do you really want to move me?</p><span class="yes">yes</span><span class="no">no</span></div>
     <div class="hint"><p></p></div>
     <div class="blood"><p>strength left</p><div></div></div>
