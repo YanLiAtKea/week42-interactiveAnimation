@@ -2,10 +2,10 @@ let bgMusic = document.querySelector('#bgMusic');
 let chuSound = document.querySelector('#chu');
 let intro = document.querySelector('div.intro');
 let closeIntro = document.querySelector('button.closeIntro');
-///////////  let humanWrapper = "";
 // add links to storyboard and diagram on the page
 // stop music when everything is inside elevator
 // elevator shuts
+let halfDoor = document.querySelectorAll('.halfDoor');
 let humanWrapper = document.querySelector('.humanWrapper');
 let human = document.querySelector('img.h');
 let humanL = document.querySelector('img.hL');
@@ -21,6 +21,7 @@ let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.c
 closeIntro.addEventListener('click', closeI);
 function closeI(){
     currentBlood = 170;
+    bgMusic.pause();
     intro.style.display = "none";
     humanL.style.display = "none";
     humanR.style.display = "none";
@@ -28,6 +29,7 @@ function closeI(){
     function suitcaseClicked(li, index){
         ask.className = "ask"; // remove hint for bed
         li.addEventListener('click', checkIndexStrengthAndMove);
+        let suitcase = li.childNodes;
         function checkIndexStrengthAndMove(){
             humanWrapper.className = "humanWrapper"; // reset humanWrapper movement with pushing the bed
             human.style.display = "none";
@@ -37,9 +39,9 @@ function closeI(){
             humanL.style.transform = "translate(0px, 0px)";
             if (index != 0){
                 hint.textContent = "You need to move the stuff above me first ~";
-                li.style.backgroundColor = "black";
             } else if(index == 0) {
                 if (currentBlood >10) {
+                    chuSound.play();
                     currentBlood = currentBlood - 10;
                     blood.style.width = currentBlood + "px";
                     humanL.style.display = "inherit";
@@ -74,6 +76,7 @@ function closeI(){
         yes.addEventListener('click', moveBed);
         function moveBed(){
             ask.className = "ask"; // hide ask div
+            human.style.display = "none";
             humanL.style.display = "none";
             humanR.style.display = "inherit";
             humanR.style.transform = "translate(-400px, 0)"; //move human to the bed side
@@ -95,8 +98,12 @@ function closeI(){
                         clearInterval(loseBloodBytime);
                     }
                 } else {
-                    hint.textContent = "Sorry, you worked too hard...";
-//                    humanR.transform = "rotateX(90deg)";
+                    humanR.style.transform ="translate(-400px, 107px) rotateX(87deg)";
+                    setTimeout(hintDead, 500);
+                    function hintDead(){
+                        hint.textContent = "Sorry, you worked too hard...I told you you need to be careful with the moving..";
+                    }
+
                 }
             }
         }
@@ -114,5 +121,11 @@ function closeI(){
             currentBlood = 170;
         }
         blood.style.width = currentBlood + "px";
+    }
+    function everythingIn(){
+        halfDoor.forEach(shut);
+        function shut(hD){
+            hD.style.transform = "rotateY(180deg)";
+        }
     }
 }
