@@ -6,6 +6,7 @@ let closeIntro = document.querySelector('button.closeIntro');
 // add links to storyboard and diagram on the page
 // stop music when everything is inside elevator
 // elevator shuts
+let humanWrapper = document.querySelector('.humanWrapper');
 let human = document.querySelector('img.h');
 let humanL = document.querySelector('img.hL');
 let humanR = document.querySelector('img.hR');
@@ -28,9 +29,12 @@ function closeI(){
         ask.className = "ask"; // remove hint for bed
         li.addEventListener('click', checkIndexStrengthAndMove);
         function checkIndexStrengthAndMove(){
+            humanWrapper.className = "humanWrapper"; // reset humanWrapper movement with pushing the bed
             human.style.display = "none";
-            humanR.style.display = "inherit";
             humanL.style.display = "none";
+            humanR.style.display = "inherit";
+            humanR.style.transform = "translate(0px, 0px)";
+            humanL.style.transform = "translate(0px, 0px)";
             if (index != 0){
                 hint.textContent = "You need to move the stuff above me first ~";
                 li.style.backgroundColor = "black";
@@ -48,7 +52,7 @@ function closeI(){
                     function changeToBlank(li){
                         li.style.backgroundColor = "transparent";
                     }
-                    hint.textContent =" ";
+                    hint.textContent ="";
                 } else {
                     hint.textContent = "You don't have enough strenge to move me now, wait to recover and be patient!";
                 }
@@ -70,13 +74,10 @@ function closeI(){
         yes.addEventListener('click', moveBed);
         function moveBed(){
             ask.className = "ask"; // hide ask div
-            human
-
-
-
-
-
-
+            humanL.style.display = "none";
+            humanR.style.display = "inherit";
+            humanR.style.transform = "translate(-400px, 0)"; //move human to the bed side
+            humanWrapper.className = "humanWrapper pushBed";
             bed.style.transform = "translate(228px, -77px)";
             bed.addEventListener('transitionend', tiltBed);
             function tiltBed(){

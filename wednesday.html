@@ -62,14 +62,28 @@
         }
         div.humanWrapper {
             width: 130px;
+            height: auto;
             position: absolute;
             left: 410px;
             bottom: 20px;
+            z-index: 2;
+        }
+        div.humanWrapper.pushBed {
+            animation: pushBed 1.8s linear forwards;
+        }
+        @keyframes pushBed {
+            from {
+                transform: translate(0, 0)
+            }
+            to {
+                transform: translate(228px, -53px)
+            }
         }
         div.humanWrapper img {
             z-index: 1;
             position: absolute;
             bottom: 0;
+            left: 0;
             height: 200px;
         }
         ul.itemsToMove {
