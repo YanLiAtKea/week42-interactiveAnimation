@@ -16,8 +16,8 @@ function suitcaseClicked(li, index){
             hint.textContent = "you can't move me";
             li.style.backgroundColor = "black";
         } else if(index == 0) {
-            currentBlood = currentBlood -5;
-            blood.style.width = currentBlood + "px"; // each suitecase costs you 5 strength
+            currentBlood = currentBlood - 10;
+            blood.style.width = currentBlood + "px";
             ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase moved is at the bottom in the elevator and the later ones are on top of the previous one
             li.style.backgroundColor ="transparent";
             let suitcasesToMove = document.querySelectorAll('.itemsToMove li'); //update index value
@@ -57,14 +57,12 @@ function areYouSure(){
         function loseSomeBlood(){
             if (currentBlood >3){
                 currentBlood -=3;
-                blood.style.width = currentBlood + "px";
                 interval ++;
                 if (interval == 50){
                     clearInterval(loseBloodBytime);
                 }
             } else {
                 hint.textContent = "Sorry, you worked too hard...";
-
             }
         }
     }
@@ -73,4 +71,13 @@ function areYouSure(){
     function hideAsk(){
         ask.className = "ask";
     }
+}
+setInterval(recover, 100);
+function recover(){
+    if (currentBlood < 170){
+        currentBlood += 0.1;
+    } else {
+        currentBlood = 170;
+    }
+    blood.style.width = currentBlood + "px";
 }
