@@ -24,6 +24,7 @@ closeIntro.addEventListener('click', closeI);
 function closeI(){
     currentBlood = 170;
     bgMusic.pause();
+    hint.textContent = "click on any stuff to move it";
     intro.style.display = "none";
     humanL.style.display = "none";
     humanR.style.display = "none";
@@ -56,7 +57,7 @@ function closeI(){
                     function changeToBlank(li){
                         li.style.backgroundColor = "transparent";
                     }
-                    hint.textContent ="";
+                    hint.textContent ="Nice work~";
                     let itemsInEle = document.querySelectorAll('.itemsInside li');
                     if (itemsInEle.length ==4){
                         checkIfBedIn();
@@ -108,6 +109,20 @@ function closeI(){
                     interval ++;
                     if (interval == 50){
                         clearInterval(loseBloodBytime);
+                        checkIfSuitcasesIn();
+                        function checkIfSuitcasesIn(){
+                            let itemsInEle = document.querySelectorAll('.itemsInside li');
+                            if (itemsInEle.length ==4){
+                                setTimeout(everythingIn2, 500);
+                                function everythingIn2(){
+                                    hint.textContent = "Thank you ! It's the right order to move the stuff, so you get to take the elevator as well~";
+                                    halfDoor.forEach(shut);
+                                    function shut(hD){
+                                        hD.style.transform = "rotateY(180deg)";
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     humanR.style.transform ="translate(-400px, 110px) rotateX(87deg)";
@@ -117,6 +132,7 @@ function closeI(){
                     }
                     blood.style.display = "none";
                     document.addEventListener('click', null); // so that after death no click will trigger anything else,like hint
+                    interval = 51; // so that the success alternative doesn't show up
                 }
             }
         }
@@ -140,7 +156,7 @@ function closeI(){
         function shut(hD){
             hD.style.transform = "rotateY(180deg)";
         }
-        hint.textContent = "Nice work ! Now you can take the stairs yourself. See you on the 7th floor~ 7th! ;)))";
+        hint.textContent = "Thank you ! But it's not smart to throw the suitcases. Now you can take the stairs yourself. See you on the 7th floor~ 7th! ;)))";
         strengthLevel.textContent = "angry level";
         blood.style.backgroundColor = "red";
         human.style.display = "inherit";
