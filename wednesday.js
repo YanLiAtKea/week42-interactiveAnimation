@@ -10,23 +10,27 @@ let currentBlood = blood.clientWidth; //style.width only gives percentage. OBS.c
 suitcasesToMove.forEach(suitcaseClicked);
 function suitcaseClicked(li, index){
     ask.className = "ask"; // remove hint for bed
-    li.addEventListener('click', checkIndexAndMove);
-    function checkIndexAndMove(){
+    li.addEventListener('click', checkIndexStrengthAndMove);
+    function checkIndexStrengthAndMove(){
         if (index != 0){
             hint.textContent = "you can't move me";
             li.style.backgroundColor = "black";
         } else if(index == 0) {
-            currentBlood = currentBlood - 10;
-            blood.style.width = currentBlood + "px";
-            ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase moved is at the bottom in the elevator and the later ones are on top of the previous one
-            li.style.backgroundColor ="transparent";
-            let suitcasesToMove = document.querySelectorAll('.itemsToMove li'); //update index value
-            suitcasesToMove.forEach(suitcaseClicked); //repeat the check of order and move top element
-            suitcasesToMove.forEach(changeToBlank); //remove error hint and color
-            function changeToBlank(li){
-                li.style.backgroundColor = "transparent";
+            if (currentBlood >10) {
+                currentBlood = currentBlood - 10;
+                blood.style.width = currentBlood + "px";
+                ulInside.insertBefore(li, ulInside.firstChild); // so the first suitecase moved is at the bottom in the elevator and the later ones are on top of the previous one
+                li.style.backgroundColor ="transparent";
+                let suitcasesToMove = document.querySelectorAll('.itemsToMove li'); //update index value
+                suitcasesToMove.forEach(suitcaseClicked); //repeat the check of order and move top element
+                suitcasesToMove.forEach(changeToBlank); //remove error hint and color
+                function changeToBlank(li){
+                    li.style.backgroundColor = "transparent";
+                }
+                hint.textContent =" ";
+            } else {
+                hint.textContent = "You don't have enough strenge to move me now, wait to recover and be patient!";
             }
-            hint.textContent =" ";
         }
     }
 }
