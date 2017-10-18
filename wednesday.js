@@ -94,6 +94,7 @@ function closeI(){
             humanR.style.display = "inherit";
             humanR.style.transform = "translate(-400px, 0)"; //move human to the bed side
             humanWrapper.className = "humanWrapper pushBed";
+            hint.textContent = "nice work~";
             bed.style.transform = "translate(228px, -77px)";
             bed.addEventListener('transitionend', tiltBed);
             function tiltBed(){
@@ -162,7 +163,7 @@ function closeI(){
         human.style.display = "inherit";
         humanL.style.display = "none";
         humanR.style.display = "none";
-        setTimeout(enlarge, 1500);
+        setTimeout(enlarge, 2500);
         function enlarge(){
             human.style.transform = "scale(2)";
             human.style.transition = "all 3s ease-in";
