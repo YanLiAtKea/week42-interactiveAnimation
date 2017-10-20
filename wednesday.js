@@ -58,46 +58,52 @@ function closeI(){
             humanL.style.transform = "translate(0px, 0px)";
             if (index != 0){ // if suitcase is not on top
                 hint.textContent = "You need to move the stuff above me first ~";
-            } else if(index == 0) { // if suitcase is on top
-                if (currentBlood >10) { //check if have enough blood left for the task // help the user to finish the game
-                    humanL.style.display = "none";
-                    humanR.style.display = "inherit"; // turn to right, pick up the suitcase
-                    hint.textContent = "";
-                    setTimeout(throwSuitcase, 30); // human turns and suitcase moves
-                    function throwSuitcase(){
-                        chuSound.play();
-                        currentBlood = currentBlood - 10;
-                        blood.style.width = currentBlood + "px";
-                        humanL.style.display = "inherit";
-                        humanR.style.display = "none";
-                        hint.textContent ="Nice work~";
-                        ulInside.insertBefore(li, ulInside.firstChild); // move this item from the original list of toMove to the new list of insideElevator. Don't use appendChild, use insertBefore, so the first suitecase is at the bottom in the elevator and the later ones are on top of the previous one
-                        let itemsInEle = document.querySelectorAll('.itemsInside li');
-                        itemsInEle.forEach(doNotClickAgain); // get array of items inside elevator
-                        function doNotClickAgain(suitcaseInside){
-                            suitcaseInside.addEventListener('mouseover', hideCursor);
-                            function hideCursor(){
-                                suitcaseInside.style.cursor = "none";
+            } else if(index == 0) { // for the case where the clicked suitcase is on top
+                // check if bed is finished moving and reached elevator, bedXY.left starting at 32, ends at 218.26...
+                let bedXY = bed.getBoundingClientRect();
+                if (bedXY.left <218){
+                    hint.textContent = "can you move 2 things at the same time in 2 different directions? humm??"
+                } else if (bedXY.left >218){
+                    if (currentBlood >10) { //check if have enough blood left for the task // help the user to finish the game
+                        humanL.style.display = "none";
+                        humanR.style.display = "inherit"; // turn to right, pick up the suitcase
+                        hint.textContent = "";
+                        setTimeout(throwSuitcase, 30); // human turns and suitcase moves
+                        function throwSuitcase(){
+                            chuSound.play();
+                            currentBlood = currentBlood - 10;
+                            blood.style.width = currentBlood + "px";
+                            humanL.style.display = "inherit";
+                            humanR.style.display = "none";
+                            hint.textContent ="Nice work~";
+                            ulInside.insertBefore(li, ulInside.firstChild); // move this item from the original list of toMove to the new list of insideElevator. Don't use appendChild, use insertBefore, so the first suitecase is at the bottom in the elevator and the later ones are on top of the previous one
+                            let itemsInEle = document.querySelectorAll('.itemsInside li');
+                            itemsInEle.forEach(doNotClickAgain); // get array of items inside elevator
+                            function doNotClickAgain(suitcaseInside){
+                                suitcaseInside.addEventListener('mouseover', hideCursor);
+                                function hideCursor(){
+                                    suitcaseInside.style.cursor = "none";
+                                }
+    //                            suitcaseInside.addEventListener('click', noLeave);
+    //                            function noLeave(){
+    //                                hint.textContent = "Let me stay in the elevator, just keep working";
+    //                            }
                             }
-//                            suitcaseInside.addEventListener('click', noLeave);
-//                            function noLeave(){
-//                                hint.textContent = "Let me stay in the elevator, just keep working";
-//                            }
-                        }
-                        let suitcasesToMove1 = document.querySelectorAll('.itemsToMove li'); //update suitcasesToMove value in the toMove array, especially index value
-                        suitcasesToMove1.forEach(suitcaseClicked); //repeat the check of order and move top element
-                        if (itemsInEle.length ==4){
-                            checkIfBedIn();
-                            function checkIfBedIn(){
-                                let bedXY = bed.getBoundingClientRect();
-                                if (bedXY.left >100) {
-                                    setTimeout(everythingIn, 500);
+                            let suitcasesToMove1 = document.querySelectorAll('.itemsToMove li'); //update suitcasesToMove value in the toMove array, especially index value
+                            suitcasesToMove1.forEach(suitcaseClicked); //repeat the check of order and move top element
+                            if (itemsInEle.length ==4){
+                                checkIfBedIn();
+                                function checkIfBedIn(){
+                                    let bedXY = bed.getBoundingClientRect();
+                                    if (bedXY.left >100) {
+                                        setTimeout(everythingIn, 500);
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        hint.textContent = "You don't have enough strenge to move me now. Please wait and recover. Be Patient!";
                     }
-                } else {
-                    hint.textContent = "You don't have enough strenge to move me now. Please wait and recover. Be Patient!";
                 }
             }
         }
