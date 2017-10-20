@@ -25,13 +25,13 @@ closeIntro.addEventListener('click', closeI);
 function closeI(){
     //reset blood
     currentBlood = 170;
-    //lower background volume
+    //lower background volume, use * for gradual change without sudden stop of music
     let lowerVolumeF = setInterval(lowerVolume, 200);
     let volume = 1;
     function lowerVolume(){
-        volume *= .91; // use * for gradual change without sudden stop of music
+        volume *= .91;
         bgMusic.volume = volume;
-        if (volume <.05 ){
+        if (volume <.03 ){
             bgMusic.pause();
             clearInterval(lowerVolumeF);
         }
@@ -56,14 +56,15 @@ function closeI(){
             humanR.style.display = "inherit";
             humanR.style.transform = "translate(0px, 0px)";
             humanL.style.transform = "translate(0px, 0px)";
-            if (index != 0){ // if suitcase is not on top
+            // see if suitcase is not on top
+            if (index != 0){ // not on top
                 hint.textContent = "You need to move the stuff above me first ~";
             } else if(index == 0) { // for the case where the clicked suitcase is on top
-                // check if bed is finished moving and reached elevator, bedXY.left starting at 32, ends at 218.26...
+                // for the case where bed is still on the way in elevator. check if bed has finished moving and reached elevator, bedXY.left starting at 32, ends at 218.26...
                 let bedXY = bed.getBoundingClientRect();
-                if (bedXY.left <218){
+                if (bedXY.left <218 && bedXY.left >33){
                     hint.textContent = "can you move 2 things at the same time in 2 different directions? humm??"
-                } else if (bedXY.left >218){
+                } else if (bedXY.left >=218 || bedXY.left == 32){
                     if (currentBlood >10) { //check if have enough blood left for the task // help the user to finish the game
                         humanL.style.display = "none";
                         humanR.style.display = "inherit"; // turn to right, pick up the suitcase
@@ -112,7 +113,7 @@ function closeI(){
     bedImg.addEventListener('click', checkIfAlreadyInElevator);
     function checkIfAlreadyInElevator(){
         let bedPosition = bed.style.transform;
-        if (!bedPosition){ // only after the bed is moved, will it have a transform attribute, so ! is for the case that user hasn't touch the bed yet // another way to check bed's position see line 91
+        if (!bedPosition){ // only after the bed is moved, will it have a transform attribute, so ! is for the case that user hasn't touch the bed yet // another way to check bed's position see above with boundingxxx
             areYouSure();
             function areYouSure(){
                 ask.className = "ask show";
@@ -124,7 +125,8 @@ function closeI(){
                     humanL.style.display = "none";
                     humanR.style.display = "inherit";
                     humanR.style.transform = "translate(-400px, 0)"; //move human to the bed side
-                    humanWrapper.className = "humanWrapper pushBed";
+                    humanR.className = 'hR pushBed';
+//                    humanWrapper.className = "humanWrapper pushBed"; // used to use this for movement of the human, not needed
                     hint.textContent = "nice work~";
                     bed.style.transform = "translate(228px, -77px)";
                     bed.addEventListener('transitionend', tiltBed);
@@ -184,6 +186,7 @@ function closeI(){
             hint.textContent = "you want to take me out again? I won't leave! Just keep moving..";
         }
     }
+    //strength recovery tio 170, starts when lower than 170
     setInterval(recover, 100);
     function recover(){
         if (currentBlood < 170){
@@ -193,6 +196,7 @@ function closeI(){
         }
         blood.style.width = currentBlood + "px";
     }
+    // the senario where elevator left without the human
     function everythingIn(){
         halfDoor.forEach(shut);
         function shut(hD){
