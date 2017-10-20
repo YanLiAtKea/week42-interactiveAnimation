@@ -61,9 +61,10 @@ function closeI(){
             } else if(index == 0) { // for the case where the clicked suitcase is on top
                 // check if bed is finished moving and reached elevator, bedXY.left starting at 32, ends at 218.26...
                 let bedXY = bed.getBoundingClientRect();
-                if (bedXY.left <218){
+                if (bedXY.left <218 && bedXY.left >32){
                     hint.textContent = "can you move 2 things at the same time in 2 different directions? humm??"
-                } else if (bedXY.left >218){
+                } else if (bedXY.left >=218 || bedXY.left == 32){
+                console.log(bedXY.left);
                     if (currentBlood >10) { //check if have enough blood left for the task // help the user to finish the game
                         humanL.style.display = "none";
                         humanR.style.display = "inherit"; // turn to right, pick up the suitcase
